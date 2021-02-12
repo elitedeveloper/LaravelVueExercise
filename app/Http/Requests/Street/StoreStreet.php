@@ -28,4 +28,12 @@ class StoreStreet extends FormRequest
             "route" => "required"
         ];
     }
+
+    public function messages()
+    {
+        return [
+            "postal_code.required" => "Postal Code is Required",
+            "postal_code.exists" => "Postal Code doesn't Exists!"
+        ];
+    }
 }

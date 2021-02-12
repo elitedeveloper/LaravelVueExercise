@@ -21,3 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix'=>'postal_code','as'=>'postal_code.'], function(){
     Route::post('store', ['as' => 'store', 'uses' => 'API\PostalCodeController@store']);
 });
+
+Route::group(['prefix'=>'street','as'=>'street.'], function(){
+    Route::get('datatable', ['as' => 'datatable', 'uses' => 'API\StreetsController@datatable']);
+    Route::post('store', ['as' => 'store', 'uses' => 'API\StreetsController@store']);
+});

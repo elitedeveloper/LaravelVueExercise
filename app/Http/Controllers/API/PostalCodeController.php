@@ -26,7 +26,8 @@ class PostalCodeController extends Controller
    public function store(StorePostalCode $request)
    {
        // create record and pass in only fields that are fillable
-       return $this->model->create($request->only($this->model->getModel()->fillable));
+        $results = $this->model->create($request->only($this->model->getModel()->fillable));
+        return $results->id;
    }
 
    public function show($id)

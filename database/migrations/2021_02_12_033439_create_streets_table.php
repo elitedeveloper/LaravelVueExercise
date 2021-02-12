@@ -16,8 +16,7 @@ class CreateStreetsTable extends Migration
         Schema::create('streets', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('postal_code')->index();
-            $table->foreign('postal_code')->references('id')->on('postal_codes')->onDelete('cascade');
+            $table->bigInteger('postal_code')->unassgined()->index();
 
             $table->string('route');
             $table->decimal('latitude', 10, 7)->nullable()->default(0);

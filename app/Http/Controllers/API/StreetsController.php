@@ -7,6 +7,7 @@ use App\Http\Requests\Street\StoreStreet;
 use App\Repositories\Repository;
 use App\Street;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class StreetsController extends Controller
 {
@@ -26,7 +27,8 @@ class StreetsController extends Controller
     public function store(StoreStreet $request)
     {
         // create record and pass in only fields that are fillable
-        return $this->model->create($request->only($this->model->getModel()->fillable));
+        $street = $this->model->create($request->only($this->model->getModel()->fillable));
+        return $street->id;
     }
 
     public function show($id)
@@ -45,5 +47,34 @@ class StreetsController extends Controller
     public function destroy($id)
     {
         return $this->model->delete($id);
+    }
+
+    public function datatable()
+    {
+        $query = $this->model->getModel()->query();
+        return DataTables::of($query)
+                ->editColumn('latitude', function ($street) {
+                    if(!$street->latitude){
+                        return $street->postalCode->latitude;
+                    }
+                    else{
+                        return $street->latitude;
+                    }
+                })
+                ->editColumn('longitude', function ($street) {
+                    if(!$street->longitude){
+                        return $street->postalCode->longitude;
+                    }
+                    else{
+                        return $street->longitude;
+                    }
+                })
+                ->editColumn('country', function ($street) {
+                    return @$street->postalCode->country;
+                })
+                ->editColumn('locality', function ($street) {
+                    return @$street->postalCode->locality;
+                })
+                ->make(true);
     }
 }

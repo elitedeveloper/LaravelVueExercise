@@ -29,4 +29,12 @@ class StorePostalCode extends FormRequest
             "locality"  => "required|string"
         ];
     }
+
+    public function messages()
+    {
+        return [
+            "id.required" => "Postal Code is Required",
+            "id.unique" => "Postal Code Exists!"
+        ];
+    }
 }
